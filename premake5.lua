@@ -1,4 +1,4 @@
-project "ImGui"
+    project "ImGui"
 	kind "StaticLib"
 	language "C++"
 
@@ -13,29 +13,27 @@ project "ImGui"
 		"imgui_draw.cpp",
 		"imgui_internal.h",
 		"imgui_widgets.cpp",
-		"imgui_rectpack.h",
-		"imgui_textedit.h",
-		"imgui_truetype.h",
+		"imstb_rectpack.h",
+		"imstb_textedit.h",
+		"imstb_truetype.h",
 		"imgui_demo.cpp"
 	}
-	
+
 	filter "system:windows"
 		systemversion "latest"
-		cppdialect "C++20"
+		cppdialect "C++17"
 		staticruntime "On"
 
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++17"
+		staticruntime "On"
 
-		defines 
-		{ 
-			"_GLFW_WIN32",
-			"_CRT_SECURE_NO_WARNINGS"
-		}
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
 
-		postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/")
-        }
-
-
-	filter {"system:windows", "configurations:Release"}
-			buildoptions "/MT"
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
